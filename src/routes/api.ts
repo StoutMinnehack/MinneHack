@@ -29,25 +29,25 @@ router.get('/events', (req, res) => {
 })
 
 router.post('/addevent', (req, res) => {
+    if(mongoConnector.Event == null) { return }
 
-    let newEvent = new mongoConnector.Event({
-        _id: mongoose.Types.ObjectId(),
-        creator_id: mongoose.Types.ObjectId(),
-        name: 'Name',
-        description: 'Test description',
-        picture: 'nothing',
-        location: {
-            city: 'Test city',
-            state: 'Test state',
-            zip: '12345',
-            latitude: 90,
-            logitude: 90
-        },
-        paricipants: ['']
+    mongoConnector.Event.find({}).exec((err, res) => {
+        res.forEach(value => {
+            console.log(value)
+        })
     })
-    newEvent.save((err: any) => {
-        console.log(err)
-    })
+    // let newEvent = new mongoConnector.Event({
+    //     name: 'Test name',
+    //     description: 'Test description',
+    //     participants: [
+    //         'Uno',
+    //         'Dos',
+    //         'Tres'
+    //     ]
+    // })
+    // newEvent.save((err: any) => {
+    //     console.log(err)
+    // })
 })
 
 export default router
