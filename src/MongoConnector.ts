@@ -1,10 +1,10 @@
+import mongoose from 'mongoose'
 class MongoConnector {
-    var mongoose = require('mongoose');
-    var Schema = mogoose.Schema;
+    Schema = mongoose.Schema;
 
-    var Login: Model;
-    var Account: Model;
-    var Event:  Model;
+    Login: mongoose.Model<any>;
+    Account: mongoose.Model<any>;
+    Event: mongoose.Model<any>;
 
     constructor() {
       var loginSchema = new mongoose.Schema({
@@ -17,7 +17,7 @@ class MongoConnector {
         token: String,
         name: String,
         picture: String,
-        events: String[]
+        events: [String]
       });
       var eventSchema = new mongoose.Schema({
         _id: String,
@@ -37,7 +37,7 @@ class MongoConnector {
 
       this.Login = mongoose.model('Login', loginSchema);
       this.Account = mongoose.model('Account', accountSchema);
-      this.Event = mogoose.model('Event', eventModel);
+      this.Event = mongoose.model('Event', eventSchema);
     }
 
 }
