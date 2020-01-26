@@ -11,8 +11,8 @@
 <body>
 
     <div class="topNav">
-        <h1 class = "title">Findfinder #notTinder</h1>
-        <input id = "search" type="text" placeholder="Search..">
+        <h1 class="title">Findfinder #notTinder</h1>
+        <input id="search" type="text" placeholder="Search..">
     </div>
     <div class="masterflex">
         <div class="menu">
@@ -30,6 +30,13 @@
             </div>
 
         </div>
+    </div>
+    <div class="hidden popup">
+        <h2>New Event</h2>
+        <label>Title: </label><input type="text" id="new_title">
+        <label>Desc: </label><input type="textarea" id="new_desc">
+        <label>Images: </label><input type="file" id="test">
+        <input type="button" value="Submit" id="new_submit">
     </div>
     <script src="js/lib/jquery-3.1.1.min.js"></script>
     <script src="js/main.js"></script>
