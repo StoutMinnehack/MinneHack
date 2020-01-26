@@ -24,9 +24,11 @@ function static_geo() {
             let tmp = $("#newsfeed");
             for (let i in data) {
                 // A bunch of filling
-                tmp.append("<div>\
+                tmp.append("<div class=\"card\">\
+                    <div class=\"card-body\">\
                     <h2>" + data[i].name + "</h2>\
                     <p>" + data[i].description + "</p>\
+                    </div>\
                 </div>");
             }
         },
@@ -68,10 +70,10 @@ if (navigator.geolocation) {
                 let tmp = $("#newsfeed");
                 for (let i in data) {
                     // A bunch of filling
-                    tmp.append("<div>\
-                        <h2>" + data[i].name + "</h2>\
-                        <p>" + data[i].description + "</p>\
-                    </div>");
+                    tmp.append("<div class=\"card\"><div class=\"card-body\"><h2>"
+                        + data[i].name + "</h2><p>"
+                        + data[i].description
+                        + "</p></div></div>");
                 }
             },
             error: function(ctx, status, error) {
@@ -88,6 +90,10 @@ if (navigator.geolocation) {
     console.log("Location is disabled");
 }
 
+$('#new_event_cancel').click(() => {
+    $("#new_event").addClass("invisible");
+});
+
 $("#create").click(() => {
     $("#new_event").removeClass("invisible");
 });
@@ -97,7 +103,7 @@ $("#new_submit").click(() => {
         window.alert("Not a complete post");
         return;
     }
-    $("#new_event").addClass("invisble");
+    $("#new_event").addClass("invisible");
     if (document.getElementById("new_images").files[0]) {
         var fileReader = new FileReader();
         fileReader.onloadend = function(e) {
@@ -123,12 +129,7 @@ function submit_post(picture) {
         data: JSON.stringify({
             name: $("#new_title").val(),
             description: $("#new_desc").val(),
-            date: $("#new_date").val(),
             picture: picture,
-            location: {
-                latitude: 4.9643487,
-                longitude: -93.2272777,
-            }
         }),
         contentType: "application/json",
         success: function(data, status, ctx) {
