@@ -4,7 +4,7 @@ import api from './routes/api'
 const app = express()
 
 app.get('/*',function(req,res,next){
-    res.header('Content-Security-Policy' , 'frame-src *.google.com')
+    res.header('Content-Security-Policy' , 'frame-src https://*.google.com')
     next() // http://expressjs.com/guide.html#passing-route control
 });
 
