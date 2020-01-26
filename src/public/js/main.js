@@ -1,5 +1,9 @@
 let token = "";
 
+$(function () {
+    $('#datetimepicker1').datetimepicker()
+})
+
 function static_geo() {
     $.post({
         url: "/api/searchevents",
