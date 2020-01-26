@@ -13,6 +13,13 @@
     width: 60%;
 }
 
-.invisible {
-    display: none;
+#map {
+    width: 100vw;
+    height: 90vh;
+    top: 0px;
+    left: 0px;
+}
+
+body {
+    overflow: hidden;
 }
