@@ -24,6 +24,7 @@
     "@types/mongoose": "^5.5.43",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
+    "google-auth-library": "^5.9.1",
     "mongoose": "^5.8.9"
   }
 }
