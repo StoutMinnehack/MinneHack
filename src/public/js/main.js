@@ -4,6 +4,11 @@ $(function () {
     $('#datetimepicker1').datetimepicker()
 })
 
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+
 function static_geo() {
     $.post({
         url: "/api/searchevents",
