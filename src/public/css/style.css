@@ -1,24 +1,34 @@
-body{ 
+.hidden {
+    display: none;
+}
+
+.popup {
+    z-index: 5;
+}
+
+body {
     background-color: #efe2ba;
     display: flex;
     flex-direction: column;
 }
-.title{
+
+.title {
     background: #f13c20;
     padding: 12px 16px;
     margin-left: 10px;
     border-radius: 10px;
     box-shadow: 3px 3px #888888;
-    
 }
-#search{
+
+#search {
     margin-left: 12px;
-/*    height: 30;*/
+    /*    height: 30;*/
     border-radius: 20px;
-    padding:10px;
-    padding:3px;
+    padding: 10px;
+    padding: 3px;
     box-shadow: 3px 3px #888888;
 }
+
 .topNav {
     flex-grow: 0;
     display: flex;
@@ -29,6 +39,7 @@ body{
     border-radius: 10px;
     box-shadow: 3px 3px #888888;
 }
+
 
 /* horizontally 
 @media screen and (max-width: 600px) {
@@ -42,12 +53,13 @@ body{
   }
 }
 */
+
 .masterflex {
     flex-grow: 1;
     display: flex;
     flex-direction: row;
-    
 }
+
 .menu {
     flex-grow: 0;
     display: flex;
@@ -63,40 +75,43 @@ body{
     overflow-y: scroll;
     padding-left: 30px
 }
+
 .menu a {
-  background-color: #4056a1;
-  float: left;
-  display: block;
-  color: white;
-  text-align: left;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  box-shadow: 3px 3px #888888;
+    background-color: #4056a1;
+    float: left;
+    display: block;
+    color: white;
+    text-align: left;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    box-shadow: 3px 3px #888888;
 }
+
 .menu a:hover {
-  background-color: #c5cbe3;
-  color: black;
+    background-color: #c5cbe3;
+    color: black;
 }
 
 .menu input[type=text] {
-  float: right;
-  padding: 6px;
-  border: none;
-  margin-top: 8px;
-  margin-right: 16px;
-  font-size: 17px;
+    float: right;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
 }
-.newsfeed{
+
+.newsfeed {
     background-color: #d79922;
     margin-left: 10px;
     border-radius: 10px;
     box-shadow: 0px 3px #888888;
-    
 }
+
 .newsfeed h2 {
     background-color: #c5cbe3;
-    margin-right:43px;
+    margin-right: 43px;
     padding-left: 10px;
     padding-right: 20px;
     padding-bottom: 15px;
@@ -105,6 +120,7 @@ body{
     border-radius: 10px;
     box-shadow: 3px 3px #888888;
 }
+
 .newsfeed p {
     padding 5px;
     text-align: center;
@@ -114,33 +130,35 @@ body{
     margin-left: 7px;
     margin-right: 50px;
     box-shadow: 3px 3px #888888;
-    
 }
+
 form.search button {
-  float: 
-  width: 20%;
-  padding: 10px;
-  background: #d79922;
-  color: white;
-  font-size: 17px;
-  border: 1px solid #d79922;
-  border-left: none; /* Prevent double borders */
-  cursor: pointer;
+    float: width: 20%;
+    padding: 10px;
+    background: #d79922;
+    color: white;
+    font-size: 17px;
+    border: 1px solid #d79922;
+    border-left: none;
+    /* Prevent double borders */
+    cursor: pointer;
 }
 
 form.search button:hover {
-  background: #efe2ba;
- border-radius: 20px;
+    background: #efe2ba;
+    border-radius: 20px;
 }
 
+
 /* Clear floats */
+
 form.search::after {
-  content: "";
-  clear: both;
-  display: table;
-  border: 1px solid #d79922;
+    content: "";
+    clear: both;
+    display: table;
+    border: 1px solid #d79922;
 }
-.hidden{
+
+.hidden {
     display: none;
-    
 }

@@ -51,3 +51,51 @@ $.get({
         console.log(ctx);
     }
 });
+
+$("#create").click(() => {
+    $("#new_event").removeClass("hidden");
+});
+
+$("#new_submit").click(() => {
+    if (!$("#new_title").text() || !$("#new_desc").text()) {
+        window.alert("Not a complete post");
+        return;
+    }
+    $("#new_event").addClass("hidden");
+    var list = document.getElementById("new_images").files;
+    var results = [];
+    for (let i in list) {
+        var fileReader = new FileReader();
+        fileReader.onloadend = function(e) {
+            if (!e.target.error) {
+                results.push(e.target.result);
+                if (results.length === list.length) {
+                    $.post({
+                        url: "/api/addevent",
+                        headers: {
+                            "token": "XXX"
+                        },
+                        dataType: "json",
+                        data: {
+                            name: $("#new_title").text(),
+                            description: $("#new_desc").text(),
+                            images: results,
+                        },
+                        success: function(data, status, ctx) {
+                            console.log(data);
+
+                        },
+                        error: function(ctx, status, error) {
+                            // Same filling, but with login info
+                            console.log("Error: " + status + ": " + error);
+                            console.log(ctx);
+                        }
+                    });
+                }
+            } else {
+                window.alert("Error");
+            }
+        }
+        fileReader.readAsDataURL(src);
+    }
+});

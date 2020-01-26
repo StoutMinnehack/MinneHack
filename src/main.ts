@@ -3,6 +3,12 @@ import api from './routes/api'
 
 const app = express()
 
+
+app.all("*", function (req, resp, next) {
+    console.log(req.url); // do anything you want here
+    next();
+ });
+
 app.use('/api', api)
 
 app.use(express.static('./src/public/'))
