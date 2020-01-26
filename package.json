@@ -21,9 +21,11 @@
   "dependencies": {
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.0.1",
+    "@types/geolib": "^2.0.23",
     "@types/mongoose": "^5.5.43",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
+    "geolib": "^3.2.1",
     "mongoose": "^5.8.9"
   }
 }
