@@ -5,16 +5,13 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
+    z-index: 10000;
 }
 
 .popup {
     top: 30%;
     left: 20%;
     width: 60%;
-}
-
-.invisible {
-    display: none;
 }
 
 .slider {
@@ -45,4 +42,15 @@
   border-radius: 50%;
   background: #FFFFFF;
   cursor: pointer;
+}
+
+#map {
+    width: 100vw;
+    height: 90vh;
+    top: 0px;
+    left: 0px;
+}
+
+body {
+    overflow: hidden;
 }

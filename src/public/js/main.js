@@ -14,8 +14,8 @@ $(function() {
     $('#datetimepicker1').datetimepicker()
 })
 
-$(function () {
-  $('[data-toggle="popover"]').popover()
+$(function() {
+    $('[data-toggle="popover"]').popover()
 })
 
 
