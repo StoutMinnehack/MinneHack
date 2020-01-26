@@ -3,7 +3,6 @@ import mongoose from 'mongoose'
 class MongoConnector {
   Schema = mongoose.Schema;
 
-  public Login: mongoose.Model<any> | null = null;
   public Account: mongoose.Model<any> | null = null;
   public Event: mongoose.Model<any> | null = null;
 
@@ -11,10 +10,6 @@ class MongoConnector {
 
 
   constructor() {
-    var loginSchema = new mongoose.Schema({
-      user_id: String,
-      token: String
-    });
     var accountSchema = new mongoose.Schema({
       token: { type: String },
       name: { type: String },
@@ -37,7 +32,6 @@ class MongoConnector {
     });
 
     mongoose.connect('mongodb+srv://minneadm:minneadm@stoutminnehack-5puv3.gcp.mongodb.net/minnehack', { useNewUrlParser: true }).then((value) => {
-      this.Login = value.model('Login', loginSchema);
       this.Account = value.model('Account', accountSchema);
       this.Event = value.model('Event', eventSchema);
     })
