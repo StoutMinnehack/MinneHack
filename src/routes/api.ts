@@ -1,32 +1,13 @@
-import express from 'express'
+import express, { response } from 'express'
 import mongoConnector from '../MongoConnector'
 import mongoose from 'mongoose'
 import { getDistance } from 'geolib'
+import verify from '../gauth'
 
 const router = express.Router()
 
 router.get('/', (req, res) => {
     res.send('Welcome to the api route')
-})
-
-router.get('/events', (req, res) => {
-    req.body
-    res.send(JSON.stringify({
-        events: [
-            {
-                title: 'Mock event one',
-                desc: 'This is the first mock event'
-            },
-            {
-                title: 'Mock event two',
-                desc: 'This is the second mock event'
-            },
-            {
-                title: 'Mock event three',
-                desc: 'This is the third mock event'
-            }
-        ]
-    }))
 })
 
 router.post('/addevent', (req, res) => {
@@ -58,7 +39,7 @@ router.post('/addevent', (req, res) => {
 })
 
 router.post('/searchevents', (req, res) => {
-    if(!mongoConnector.Event) { return }
+    if (!mongoConnector.Event) { return }
 
     interface SearchQuery {
         area?: {
@@ -72,10 +53,10 @@ router.post('/searchevents', (req, res) => {
     }
 
     let query: SearchQuery = req.body
-    if(query.area) {
+    if (query.area) {
         mongoConnector.Event.find({}).exec((err, mres) => {
             let result = mres.filter(value => {
-                if(!query.area || !value.location || !value.location.latitude || !value.location.longitude) return false
+                if (!query.area || !value.location || !value.location.latitude || !value.location.longitude) return false
                 if (getDistance([query.area.latitude, query.area.longitude], [value.location.latitude, value.location.longitude]) < query.area.radius) {
                     return true
                 }
@@ -85,24 +66,70 @@ router.post('/searchevents', (req, res) => {
             return
         })
     }
-    else if(query.city) {
+    else if (query.city) {
         mongoConnector.Event.find({ location: { city: query.city } }).exec((err, mres) => {
             res.json(mres)
             return
         })
     }
-    else if(query.state) {
+    else if (query.state) {
         mongoConnector.Event.find({ location: { state: query.state } }).exec((err, mres) => {
             res.json(mres)
             return
         })
     }
-    else if(query.zip) {
+    else if (query.zip) {
         mongoConnector.Event.find({ location: { zip: query.zip } }).exec((err, mres) => {
             res.json(mres)
             return
         })
     }
+})
+
+router.post('/login', async (req, res) => {
+    interface LoginQuery {
+        token: String,
+        name: String,
+        picture: String
+    }
+
+    try {
+        let query: LoginQuery = req.body
+        let userID = await verify(req.body.token)
+
+        if (!mongoConnector.Account) { return }
+        mongoConnector.Account.exists({ token: userID }, ((err, exists) => {
+            if (err) {
+                console.log(err)
+                res.sendStatus(403)
+                return
+            }
+            if (exists) {
+                res.sendStatus(200)
+                return
+            } else {
+                if (!mongoConnector.Account) { return }
+                let newUser = new mongoConnector.Account({
+                    token: query.token,
+                    name: query.name,
+                    picture: query.picture
+                })
+                newUser.save((err: any) => {
+                    if (err) {
+                        console.log(err)
+                        res.sendStatus(403)
+                        return
+                    }
+                    res.sendStatus(200)
+                    return
+                })
+            }
+        }))
+    } catch (err) {
+
+    }
+
+
 })
 
 export default router

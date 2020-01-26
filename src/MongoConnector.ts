@@ -11,10 +11,10 @@ class MongoConnector {
 
   constructor() {
     var accountSchema = new mongoose.Schema({
-      token: { type: String },
-      name: { type: String },
-      picture: { type: String },
-      events: [{ type: String }]
+      token: String,
+      name: String,
+      picture: String,
+      events: [String]
     });
     var eventSchema = new mongoose.Schema({
       creator_id: String,
