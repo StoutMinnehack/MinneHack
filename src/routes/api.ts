@@ -14,7 +14,7 @@ router.get('/health', (req, res) => {
     res.send('healthy');
 })
 
-router.post('/addevent', (req, res) => {
+router.post('/addevent', async (req, res) => {
     if (mongoConnector.Event == null) { return }
 
     let userID = ''
