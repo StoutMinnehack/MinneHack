@@ -12,3 +12,7 @@
     left: 20%;
     width: 60%;
 }
+
+.invisible {
+    display: none;
+}
