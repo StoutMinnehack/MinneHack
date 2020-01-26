@@ -1,6 +1,16 @@
 let token = "";
+var mymap = L.map('map').setView([44.505, -93.09], 13);
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGhlMTB0aHdpeiIsImEiOiJjazV2NG51N3gwdHp4M21tYzF1cnBocjl6In0.dYNjqs7k6UQTfgvDJw9TgA', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    accessToken: 'pk.eyJ1IjoidGhlMTB0aHdpeiIsImEiOiJjazV2NG51N3gwdHp4M21tYzF1cnBocjl6In0.dYNjqs7k6UQTfgvDJw9TgA'
+}).addTo(mymap);
+var center = L.marker([44.505, -93.09], { draggable: true }); //.addTo(mymap);
 
-$(function () {
+var points = [];
+
+$(function() {
     $('#datetimepicker1').datetimepicker()
 })
 
@@ -17,22 +27,25 @@ function static_geo() {
         },
         data: JSON.stringify({
             area: {
-                latitude: 4.9643487,
+                latitude: 44.9643487,
                 longitude: -93.2272777,
-                radius: 25
+                radius: 10000000
             }
         }),
         contentType: "application/json",
         dataType: "json",
         success: function(data, status, ctx) {
             console.log(data);
-            let tmp = $("#newsfeed");
             for (let i in data) {
                 // A bunch of filling
-                tmp.append("<div>\
-                    <h2>" + data[i].name + "</h2>\
-                    <p>" + data[i].description + "</p>\
-                </div>");
+                var marker = L.marker([data[i].location.latitude, data[i].location.longitude]).addTo(mymap);
+                marker.bindPopup("<div>\
+                <h2>" + data[i].name + "</h2>\
+                <p>" + data[i].description + "</p>\
+                <p>" + data[i].date + "</p>\
+            </div>");
+                points.push(marker);
+                console.log([data[i].location.latitude, data[i].location.longitude]);
             }
         },
         error: function(ctx, status, error) {
@@ -73,10 +86,10 @@ if (navigator.geolocation) {
                 let tmp = $("#newsfeed");
                 for (let i in data) {
                     // A bunch of filling
-                    tmp.append("<div>\
-                        <h2>" + data[i].name + "</h2>\
-                        <p>" + data[i].description + "</p>\
-                    </div>");
+                    tmp.append("<div class=\"card\"><div class=\"card-body\"><h2>" +
+                        data[i].name + "</h2><p>" +
+                        data[i].description +
+                        "</p></div></div>");
                 }
             },
             error: function(ctx, status, error) {
@@ -93,6 +106,10 @@ if (navigator.geolocation) {
     console.log("Location is disabled");
 }
 
+$('#new_event_cancel').click(() => {
+    $("#new_event").addClass("invisible");
+});
+
 $("#create").click(() => {
     $("#new_event").removeClass("invisible");
 });
@@ -102,7 +119,7 @@ $("#new_submit").click(() => {
         window.alert("Not a complete post");
         return;
     }
-    $("#new_event").addClass("invisble");
+    $("#new_event").addClass("invisible");
     if (document.getElementById("new_images").files[0]) {
         var fileReader = new FileReader();
         fileReader.onloadend = function(e) {
@@ -128,12 +145,7 @@ function submit_post(picture) {
         data: JSON.stringify({
             name: $("#new_title").val(),
             description: $("#new_desc").val(),
-            date: $("#new_date").val(),
             picture: picture,
-            location: {
-                latitude: 4.9643487,
-                longitude: -93.2272777,
-            }
         }),
         contentType: "application/json",
         success: function(data, status, ctx) {
@@ -146,3 +158,10 @@ function submit_post(picture) {
         }
     });
 }
+
+var circle = L.circle([51.508, -0.11], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+}); //.addTo(mymap);
