@@ -157,7 +157,7 @@ slider.oninput = function () {
 }
 
 function submit_post(picture) {
-    let date = $('#new_date').text()
+    let date = $('#new_date').data().date
     $.post({
         url: "/api/addevent",
         headers: {
