@@ -33,19 +33,19 @@ function onSignIn(googleUser) {
             console.log(ctx);
         }
     })
-    $(".g-signin2").addClass("hidden");
-    $(".login").removeClass("hidden");
+    $(".g-signin2").addClass("invisible");
+    $(".login").removeClass("invisible");
     $(".profile").attr("src", profile.getImageUrl());
 }
 
 function onFail(error) {
     console.log(error);
-    $(".g-signin2").removeClass("hidden");
-    $(".login").addClass("hidden");
+    $(".g-signin2").removeClass("invisible");
+    $(".login").addClass("invisible");
 }
 
 $("#logout").click(function() {
     gapi.auth2.getAuthInstance().signOut();
-    $(".g-signin2").removeClass("hidden");
-    $(".login").addClass("hidden");
+    $(".g-signin2").removeClass("invisible");
+    $(".login").addClass("invisible");
 });
