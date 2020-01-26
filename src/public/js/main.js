@@ -135,6 +135,15 @@ $("#new_submit").click(() => {
     }
 });
 
+let slider = document.getElementById("rangeSlider")
+let output = document.getElementById("rangeText")
+
+output.innerHTML = `Range: ${slider.value}km&nbsp;&nbsp;`
+
+slider.oninput = function() {
+    output.innerHTML = `Range: ${slider.value}km&nbsp;&nbsp;`
+}
+
 function submit_post(picture) {
     $.post({
         url: "/api/addevent",
