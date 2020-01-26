@@ -1,4 +1,7 @@
 import express from 'express'
+import mongoConnector from '../MongoConnector'
+import mongoose from 'mongoose'
+
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -26,7 +29,25 @@ router.get('/events', (req, res) => {
 })
 
 router.post('/addevent', (req, res) => {
-    console.log(req.body)
+
+    let newEvent = new mongoConnector.Event({
+        _id: mongoose.Types.ObjectId(),
+        creator_id: null,
+        name: 'Name',
+        description: 'Test description',
+        picture: 'nothing',
+        location: {
+            city: 'Test city',
+            state: 'Test state',
+            zip: '12345',
+            latitude: 90,
+            logitude: 90
+        },
+        paricipants: ['']
+    })
+    newEvent.save().then(()=>{
+        console.log('Success!')
+    })
 })
 
 export default router

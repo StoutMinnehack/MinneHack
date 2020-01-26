@@ -1,43 +1,53 @@
 import mongoose from 'mongoose'
+
+interface LoginSchema extends mongoose.SchemaDefinition {
+  _id: mongoose.Types.ObjectId,
+  user_id: mongoose.Types.ObjectId,
+  token: String
+}
+
+interface AccountSchema extends mongoose.SchemaDefinition {
+  _id: mongoose.Types.ObjectId,
+  token: String,
+  name: String,
+  picture: String,
+  events: [String]
+}
+
+interface EventSchema extends mongoose.SchemaDefinition {
+      _id: mongoose.Types.ObjectId,
+      creator_id: mongoose.Types.ObjectId,
+      name: String,
+      description: String,
+      picture: String,
+      location: {
+        city: String,
+        state: String,
+        zip: String,
+        latitude: Number,
+        logitude: Number
+      },
+      paricipants: [String]
+}
 class MongoConnector {
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
-    Login: mongoose.Model<any>;
-    Account: mongoose.Model<any>;
-    Event: mongoose.Model<any>;
+  public Login: mongoose.Model<any>;
+  public Account: mongoose.Model<any>;
+  public Event: mongoose.Model<any>;
 
-    constructor() {
-      var loginSchema = new mongoose.Schema({
-        _id: String,
-        user_id: String,
-        token: String
-      });
-      var accountSchema = new mongoose.Schema({
-        _id: String,
-        token: String,
-        name: String,
-        picture: String,
-        events: [String]
-      });
-      var eventSchema = new mongoose.Schema({
-        _id: String,
-        creator_id: String,
-        name: String,
-        description: String,
-        picture: String,
-        location: {
-          city: String,
-          state: String,
-          zip: String,
-          latitude: Number,
-          logitude: Number
-        },
-        paricipants: [String]
-      });
+  constructor() {
+    var loginSchema = new mongoose.Schema(<LoginSchema>{});
+    var accountSchema = new mongoose.Schema(<AccountSchema>{});
+    var eventSchema = new mongoose.Schema(<EventSchema>{});
 
-      this.Login = mongoose.model('Login', loginSchema);
-      this.Account = mongoose.model('Account', accountSchema);
-      this.Event = mongoose.model('Event', eventSchema);
-    }
+    mongoose.connect('mongodb+srv://minneadm:minneadm@stoutminnehack-5puv3.gcp.mongodb.net/minnehack', { useNewUrlParser: true })
+
+    this.Login = mongoose.model('Login', loginSchema);
+    this.Account = mongoose.model('Account', accountSchema);
+    this.Event = mongoose.model('Event', eventSchema);
+  }
 
 }
+
+export default new MongoConnector()
