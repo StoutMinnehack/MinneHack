@@ -1,12 +1,3 @@
-function toDataURL(src, callback) {
-    var fileReader = new FileReader();
-    fileReader.onloadend = function(e) {
-        console.log(e.target.result);
-        callback(fileReader.result);
-    }
-    fileReader.readAsDataURL(src);
-}
-
 // Get User Profile
 
 // Check Browser Storage API for Token
@@ -61,7 +52,16 @@ $.get({
     }
 });
 
+$("#create").click(() => {
+    $("#new_event").removeClass("hidden");
+});
+
 $("#new_submit").click(() => {
+    if (!$("#new_title").text() || !$("#new_desc").text()) {
+        window.alert("Not a complete post");
+        return;
+    }
+    $("#new_event").addClass("hidden");
     var list = document.getElementById("new_images").files;
     var results = [];
     for (let i in list) {
@@ -98,6 +98,4 @@ $("#new_submit").click(() => {
         }
         fileReader.readAsDataURL(src);
     }
-
-
 });
