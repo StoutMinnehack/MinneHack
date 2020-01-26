@@ -10,11 +10,20 @@ router.get('/', (req, res) => {
     res.send('Welcome to the api route')
 })
 
-router.post('/addevent', (req, res) => {
+router.post('/addevent', async (req, res) => {
     if (mongoConnector.Event == null) { return }
 
+    let userID = ''
+    try {
+        let token: String = req.headers.token instanceof String ? req.headers.token : ''
+        userID = await verify(token)
+    } catch(err) {
+        console.log(err)
+        res.sendStatus(403)
+        return
+    }
+
     interface Event {
-        creator_id: String,
         name: String,
         description: String,
         picture: String,
@@ -24,11 +33,18 @@ router.post('/addevent', (req, res) => {
             zip: String,
             latitude: Number,
             longitude: Number
-        },
-        participants: [String]
+        }
     }
 
-    let newEvent = new mongoConnector.Event(req.body)
+    let query: Event = req.body
+
+    let newEvent = new mongoConnector.Event({
+        creator_id: userID,
+        name: query.name,
+        description: query.description,
+        picture: query.picture,
+        location: query.location
+    })
     newEvent.save((err: any) => {
         if (err) {
             res.sendStatus(500)
@@ -98,8 +114,8 @@ router.post('/login', async (req, res) => {
         let userID = await verify(req.body.token)
 
         if (!mongoConnector.Account) { return }
-        mongoConnector.Account.update({ token: query.token }, {
-            token: query.token,
+        mongoConnector.Account.update({ token: userID }, {
+            token: userID,
             name: query.name,
             picture: query.picture
         }, {
