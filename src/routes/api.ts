@@ -102,6 +102,8 @@ router.post('/login', async (req, res) => {
             token: query.token,
             name: query.name,
             picture: query.picture
+        }, {
+            upsert: true
         }, (err) => {
             if(err) {
                 res.sendStatus(403)
