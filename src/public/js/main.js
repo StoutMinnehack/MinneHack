@@ -1,6 +1,17 @@
 // Get User Profile
 
 // Check Browser Storage API for Token
+let token = localStorage.getItem("user_token");
+if (!token) {
+    token = "XXX";
+}
+// console.log("Token: " + token);
+// $(".active").click(() => {
+//     localStorage.setItem("user_token", "Somehting else");
+// });
+// $("a[href=\"#news\"]").click(() => {
+//     localStorage.setItem("user_token", "");
+// });
 
 // Profile request
 // $.get({
@@ -22,6 +33,7 @@ $.get({
     headers: {
         "token": "XXX"
     },
+    dataType: "json",
     success: function(data, status, ctx) {
         console.log(data);
         let tmp = $("#newsfeed");
@@ -38,4 +50,4 @@ $.get({
         console.log("Error: " + status + ": " + error);
         console.log(ctx);
     }
-})
+});
