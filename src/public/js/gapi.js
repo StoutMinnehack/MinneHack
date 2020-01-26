@@ -43,3 +43,9 @@ function onFail(error) {
     $(".g-signin2").removeClass("hidden");
     $(".login").addClass("hidden");
 }
+
+$("#logout").click(function() {
+    gapi.auth2.getAuthInstance().signOut();
+    $(".g-signin2").removeClass("hidden");
+    $(".login").addClass("hidden");
+});

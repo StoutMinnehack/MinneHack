@@ -6,13 +6,14 @@ function static_geo() {
         headers: {
             token: token
         },
-        data: {
+        data: JSON.stringify({
             area: {
                 latitude: 4.9643487,
                 longitude: -93.2272777,
                 radius: 25
             }
-        },
+        }),
+        contentType: "application/json",
         dataType: "json",
         success: function(data, status, ctx) {
             console.log(data);
@@ -119,6 +120,10 @@ function submit_post(picture) {
             name: $("#new_title").val(),
             description: $("#new_desc").val(),
             picture: picture,
+            location: {
+                latitude: 4.9643487,
+                longitude: -93.2272777,
+            }
         }),
         contentType: "application/json",
         success: function(data, status, ctx) {
