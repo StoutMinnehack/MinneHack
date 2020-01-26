@@ -119,6 +119,7 @@ function submit_post(picture) {
         data: JSON.stringify({
             name: $("#new_title").val(),
             description: $("#new_desc").val(),
+            date: $("#new_date").val(),
             picture: picture,
             location: {
                 latitude: 4.9643487,

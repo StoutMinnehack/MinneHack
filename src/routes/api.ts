@@ -26,6 +26,7 @@ router.post('/addevent', async (req, res) => {
     interface Event {
         name: String,
         description: String,
+        date: String,
         picture: String,
         location: {
             city: String,
@@ -42,6 +43,7 @@ router.post('/addevent', async (req, res) => {
         creator_id: userID,
         name: query.name,
         description: query.description,
+        date: query.date,
         picture: query.picture,
         location: query.location
     })

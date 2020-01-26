@@ -20,6 +20,7 @@ class MongoConnector {
       creator_id: String,
       name: String,
       description: String,
+      date: String,
       picture: String,
       location: {
         city: String,
