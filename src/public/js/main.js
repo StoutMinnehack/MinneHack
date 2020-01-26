@@ -4,7 +4,7 @@ function static_geo() {
     $.post({
         url: "/api/searchevents",
         headers: {
-            "token": token
+            token: token
         },
         data: {
             area: {
@@ -47,15 +47,16 @@ if (navigator.geolocation) {
         $.post({
             url: "/api/searchevents",
             headers: {
-                "token": token
+                token: token
             },
-            data: {
+            data: JSON.stringify({
                 area: {
                     latitude: loc.coords.latitude,
                     longitude: loc.coords.longitude,
                     radius: 25
                 }
-            },
+            }),
+            contentType: "application/json",
             dataType: "json",
             success: function(data, status, ctx) {
                 console.log(data);
@@ -87,39 +88,46 @@ $("#create").click(() => {
 });
 
 $("#new_submit").click(() => {
-    if (!$("#new_title").text() || !$("#new_desc").text()) {
+    if (!$("#new_title").val() || !$("#new_desc").val()) {
         window.alert("Not a complete post");
         return;
     }
     $("#new_event").addClass("hidden");
-
-    var fileReader = new FileReader();
-    fileReader.onloadend = function(e) {
-        if (!e.target.error) {
-            $.post({
-                url: "/api/addevent",
-                headers: {
-                    "token": token
-                },
-                dataType: "json",
-                data: {
-                    name: $("#new_title").text(),
-                    description: $("#new_desc").text(),
-                    images: e.target.result,
-                },
-                success: function(data, status, ctx) {
-                    console.log(data);
-
-                },
-                error: function(ctx, status, error) {
-                    // Same filling, but with login info
-                    console.log("Error: " + status + ": " + error);
-                    console.log(ctx);
-                }
-            });
-        } else {
-            window.alert("Error");
+    if (document.getElementById("new_images").files[0]) {
+        var fileReader = new FileReader();
+        fileReader.onloadend = function(e) {
+            if (!e.target.error) {
+                submit_post(e.target.result);
+            } else {
+                window.alert("Error");
+            }
         }
+        fileReader.readAsDataURL(document.getElementById("new_images").files[0]);
+    } else {
+        submit_post("");
     }
-    fileReader.readAsDataURL(document.getElementById("new_images").files[0]);
 });
+
+function submit_post(picture) {
+    $.post({
+        url: "/api/addevent",
+        headers: {
+            "token": token
+        },
+        dataType: "json",
+        data: JSON.stringify({
+            name: $("#new_title").val(),
+            description: $("#new_desc").val(),
+            picture: picture,
+        }),
+        contentType: "application/json",
+        success: function(data, status, ctx) {
+            console.log(data);
+        },
+        error: function(ctx, status, error) {
+            // Same filling, but with login info
+            console.log("Error: " + status + ": " + error);
+            console.log(ctx);
+        }
+    });
+}

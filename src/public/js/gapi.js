@@ -1,7 +1,7 @@
 function onSignIn(googleUser) {
     console.log("Worked");
     // Useful data for your client-side scripts:
-    // var profile = googleUser.getBasicProfile();
+    var profile = googleUser.getBasicProfile();
     // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
     // console.log('Full Name: ' + profile.getName());
     // console.log('Given Name: ' + profile.getGivenName());
@@ -15,24 +15,17 @@ function onSignIn(googleUser) {
     $.post({
         url: "/api/login",
         headers: {
-            "token": token
+            token: token
         },
-        data: {
-            "token": token,
-            "name": profile.getName(),
-            "picture": profile.getImageUrl()
-        },
-        dataType: "json",
+        data: JSON.stringify({
+            token: token,
+            name: profile.getName(),
+            picture: profile.getImageUrl()
+        }),
+        contentType: "application/json",
         success: function(data, status, ctx) {
-            console.log(data);
-            let tmp = $("#newsfeed");
-            for (let i in data) {
-                // A bunch of filling
-                tmp.append("<div>\
-                    <h2>" + data[i].name + "</h2>\
-                    <p>" + data[i].description + "</p>\
-                </div>");
-            }
+            console.log(status);
+            console.log("Logged in");
         },
         error: function(ctx, status, error) {
             // Same filling, but with login info
@@ -40,8 +33,13 @@ function onSignIn(googleUser) {
             console.log(ctx);
         }
     })
+    $(".g-signin2").addClass("hidden");
+    $(".login").removeClass("hidden");
+    $(".profile").attr("src", profile.getImageUrl());
 }
 
 function onFail(error) {
     console.log(error);
+    $(".g-signin2").removeClass("hidden");
+    $(".login").addClass("hidden");
 }
