@@ -9,6 +9,10 @@ router.get('/', (req, res) => {
     res.send('Welcome to the api route')
 })
 
+router.get('/health', (req, res) => {
+    res.send('healthy');
+})
+
 router.get('/events', (req, res) => {
     req.body
     res.send(JSON.stringify({
