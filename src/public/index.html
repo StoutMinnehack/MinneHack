@@ -8,49 +8,60 @@
     <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id"
-        content="1035970031587-o4n43bfbas594qhr60umt3vqq9tdqnjo.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="1035970031587-o4n43bfbas594qhr60umt3vqq9tdqnjo.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 </head>
 
 <body>
-    <div class="topNav">
-        <h1 class="title">Findfinder #notTinder</h1>
-        <input id="search" type="text" placeholder="Search..">
-        <button type="submit"><i class="fa fa-search"></i></button>
-        <div class="g-signin2" data-onsuccess="onSignIn" data-onfailure="onFail" data-theme="dark"></div>
-        <div class="login hidden"><a id="create">Create Event</a><a id="logout">Log out</a><img class="profile"></div>
-    </div>
-    <div class="masterflex">
-        <div class="menu">
-            <a class="active" href="#home">Home</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
-            <a
-                href="C:\Users\VailTracen\OneDrive - University of Wisconsin-Stout\Documents\GitHub\MinneHack\src\public">About</a>
-        </div>
-
-        <div class="newsfeed" id="newsfeed">
-
-            <div>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand">Findfinder #notTinder</a>
+        <form class="form-inline">
+            <input id="search" class="form-control" type="text" placeholder="Search..">
+            <button class="btn btn-primary m-2" type="submit"><i class="fa fa-search"></i></button>
+            <div class="g-signin2 m-2" data-onsuccess="onSignIn" data-onfailure="onFail" data-theme="dark"></div>
+        </form>
+        <div class="login invisble"><button class="btn btn-success" id="create">Create Event</button><img class="profile"></div>
+    </nav>
+    <div class="container p-2">
+        <div class="card newsfeed" id="newsfeed">
+            <div class="card-body">
                 <h2>Event</h2>
                 <p>some content</p>
             </div>
-
         </div>
-    </div>
-    <div class="hidden popup" id="new_event">
-        <h2>New Event</h2>
-        <label>Title: </label><input type="text" id="new_title">
-        <label>Desc: </label><input type="textarea" id="new_desc">
-        <label>Images: </label><input type="file" id="new_images">
-        <label>Date: </label><input type="datetime-local" id="new_date">
-        <input type="button" value="Submit" id="new_submit">
+        <div class="invisble overlay card text-center" id="new_event">
+            <div class="card-header navbar">
+                    <a class="navbar-brand">New Event</a>
+                    <button class="btn btn-danger"> x </button>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="new_title" placeholder="Event Title">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows=3 id="new_desc" placeholder="Description"></textarea>
+                    </div>
+                    <div class="m-2 form-group">
+                        <label for="new_images">Choose a picture</label>
+                        <input type="file" id="new_images">
+                    </div>
+                    <div class="form-group">
+                        
+                        <input type="datetime-local" id="new_date">
+                    </div>
+                    <button class="btn btn-primary m-2" value="Submit" id="new_submit">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
     <script src="js/lib/jquery-3.1.1.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/gapi.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 </html>

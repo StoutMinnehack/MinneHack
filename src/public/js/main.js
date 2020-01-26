@@ -85,7 +85,7 @@ if (navigator.geolocation) {
 }
 
 $("#create").click(() => {
-    $("#new_event").removeClass("hidden");
+    $("#new_event").removeClass("invisible");
 });
 
 $("#new_submit").click(() => {
@@ -93,7 +93,7 @@ $("#new_submit").click(() => {
         window.alert("Not a complete post");
         return;
     }
-    $("#new_event").addClass("hidden");
+    $("#new_event").addClass("invisble");
     if (document.getElementById("new_images").files[0]) {
         var fileReader = new FileReader();
         fileReader.onloadend = function(e) {
