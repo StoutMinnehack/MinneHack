@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/events', (req, res) => {
+    req.body
     res.send(JSON.stringify({
         events: [
             {
@@ -22,6 +23,10 @@ router.get('/events', (req, res) => {
             }
         ]
     }))
+})
+
+router.post('/addevent', (req, res) => {
+    console.log(req.body)
 })
 
 export default router

@@ -3,6 +3,8 @@ import api from './routes/api'
 
 const app = express()
 
+app.use(express.json())
+
 app.use('/api', api)
 
 app.use(express.static('./src/public/'))
