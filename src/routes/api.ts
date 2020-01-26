@@ -32,7 +32,7 @@ router.post('/addevent', (req, res) => {
 
     let newEvent = new mongoConnector.Event({
         _id: mongoose.Types.ObjectId(),
-        creator_id: null,
+        creator_id: mongoose.Types.ObjectId(),
         name: 'Name',
         description: 'Test description',
         picture: 'nothing',
@@ -45,8 +45,8 @@ router.post('/addevent', (req, res) => {
         },
         paricipants: ['']
     })
-    newEvent.save().then(()=>{
-        console.log('Success!')
+    newEvent.save((err: any) => {
+        console.log(err)
     })
 })
 
