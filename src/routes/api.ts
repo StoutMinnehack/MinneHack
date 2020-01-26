@@ -15,7 +15,7 @@ router.post('/addevent', async (req, res) => {
 
     let userID = ''
     try {
-        let token: String = req.headers.token instanceof String ? req.headers.token : ''
+        let token: String = req.headers.token as String
         userID = await verify(token)
     } catch(err) {
         console.log(err)

@@ -14,10 +14,6 @@ $(function () {
     $('#datetimepicker1').datetimepicker()
 })
 
-$(function () {
-    $('[data-toggle="popover"]').popover()
-})
-
 mymap.on('click', onMapClick)
 
 var latlng = null
@@ -129,7 +125,8 @@ $("#create").click(() => {
     $("#new_event").removeClass("invisible");
 });
 
-$("#new_submit").click(() => {
+$("#new_submit").click((e) => {
+    e.preventDefault()
     if (!$("#new_title").val() || !$("#new_desc").val()) {
         window.alert("Not a complete post");
         return;
