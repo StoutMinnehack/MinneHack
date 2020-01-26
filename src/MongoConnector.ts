@@ -26,7 +26,7 @@ class MongoConnector {
         state: String,
         zip: String,
         latitude: Number,
-        logitude: Number
+        longitude: Number
       },
       participants: [String]
     });
