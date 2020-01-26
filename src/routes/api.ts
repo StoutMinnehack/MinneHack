@@ -10,7 +10,11 @@ router.get('/', (req, res) => {
     res.send('Welcome to the api route')
 })
 
-router.post('/addevent', async (req, res) => {
+router.get('/health', (req, res) => {
+    res.send('healthy');
+})
+
+router.post('/addevent', (req, res) => {
     if (mongoConnector.Event == null) { return }
 
     let userID = ''
