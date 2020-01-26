@@ -98,35 +98,21 @@ router.post('/login', async (req, res) => {
         let userID = await verify(req.body.token)
 
         if (!mongoConnector.Account) { return }
-        mongoConnector.Account.exists({ token: userID }, ((err, exists) => {
-            if (err) {
-                console.log(err)
+        mongoConnector.Account.update({ token: query.token }, {
+            token: query.token,
+            name: query.name,
+            picture: query.picture
+        }, (err) => {
+            if(err) {
                 res.sendStatus(403)
                 return
             }
-            if (exists) {
-                res.sendStatus(200)
-                return
-            } else {
-                if (!mongoConnector.Account) { return }
-                let newUser = new mongoConnector.Account({
-                    token: query.token,
-                    name: query.name,
-                    picture: query.picture
-                })
-                newUser.save((err: any) => {
-                    if (err) {
-                        console.log(err)
-                        res.sendStatus(403)
-                        return
-                    }
-                    res.sendStatus(200)
-                    return
-                })
-            }
-        }))
+            res.sendStatus(200)
+            return
+        })
     } catch (err) {
-
+        console.log(err)
+        res.sendStatus(403)
     }
 
 
