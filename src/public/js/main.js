@@ -1,101 +1,133 @@
-// Get User Profile
+let token = "";
 
-// Check Browser Storage API for Token
-let token = localStorage.getItem("user_token");
-if (!token) {
-    token = "XXX";
+function static_geo() {
+    $.post({
+        url: "/api/searchevents",
+        headers: {
+            token: token
+        },
+        data: {
+            area: {
+                latitude: 4.9643487,
+                longitude: -93.2272777,
+                radius: 25
+            }
+        },
+        dataType: "json",
+        success: function(data, status, ctx) {
+            console.log(data);
+            let tmp = $("#newsfeed");
+            for (let i in data) {
+                // A bunch of filling
+                tmp.append("<div>\
+                    <h2>" + data[i].name + "</h2>\
+                    <p>" + data[i].description + "</p>\
+                </div>");
+            }
+        },
+        error: function(ctx, status, error) {
+            // Same filling, but with login info
+            console.log("Error: " + status + ": " + error);
+            console.log(ctx);
+        }
+    });
 }
-// console.log("Token: " + token);
-// $(".active").click(() => {
-//     localStorage.setItem("user_token", "Somehting else");
-// });
-// $("a[href=\"#news\"]").click(() => {
-//     localStorage.setItem("user_token", "");
-// });
-
-// Profile request
-// $.get({
-//     url: "/api/profile",
-//     headers: {
-//         "token": "XXX"
-//     },
-//     success: function(data, status, ctx) {
-//         // A bunch of filling
-//     },
-//     error: function(ctx, status, error) {
-//         // Same filling, but with login info
-//     }
-// })
 
 // Feed Request
-$.get({
-    url: "/api/events",
-    headers: {
-        "token": "XXX"
-    },
-    dataType: "json",
-    success: function(data, status, ctx) {
-        console.log(data);
-        let tmp = $("#newsfeed");
-        for (let i in data.events) {
-            // A bunch of filling
-            tmp.append("<div>\
-                <h2>" + data.events[i].title + "</h2>\
-                <p>" + data.events[i].desc + "</p>\
-            </div>");
-        }
-    },
-    error: function(ctx, status, error) {
-        // Same filling, but with login info
-        console.log("Error: " + status + ": " + error);
-        console.log(ctx);
-    }
-});
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((loc) => {
+        console.log("Something");
+        console.log({
+            area: {
+                latitude: loc.coords.latitude,
+                longitude: loc.coords.longitude,
+                radius: 25
+            }
+        });
+        $.post({
+            url: "/api/searchevents",
+            headers: {
+                token: token
+            },
+            data: JSON.stringify({
+                area: {
+                    latitude: loc.coords.latitude,
+                    longitude: loc.coords.longitude,
+                    radius: 25
+                }
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data, status, ctx) {
+                console.log(data);
+                let tmp = $("#newsfeed");
+                for (let i in data) {
+                    // A bunch of filling
+                    tmp.append("<div>\
+                        <h2>" + data[i].name + "</h2>\
+                        <p>" + data[i].description + "</p>\
+                    </div>");
+                }
+            },
+            error: function(ctx, status, error) {
+                // Same filling, but with login info
+                console.log("Error: " + status + ": " + error);
+                console.log(ctx);
+            }
+        });
+    }, (error) => {
+        console.log(error);
+    });
+    static_geo();
+} else {
+    console.log("Location is disabled");
+}
 
 $("#create").click(() => {
     $("#new_event").removeClass("hidden");
 });
 
 $("#new_submit").click(() => {
-    if (!$("#new_title").text() || !$("#new_desc").text()) {
+    if (!$("#new_title").val() || !$("#new_desc").val()) {
         window.alert("Not a complete post");
         return;
     }
     $("#new_event").addClass("hidden");
-    var list = document.getElementById("new_images").files;
-    var results = [];
-    for (let i in list) {
+    if (document.getElementById("new_images").files[0]) {
         var fileReader = new FileReader();
         fileReader.onloadend = function(e) {
             if (!e.target.error) {
-                results.push(e.target.result);
-                if (results.length === list.length) {
-                    $.post({
-                        url: "/api/addevent",
-                        headers: {
-                            "token": "XXX"
-                        },
-                        dataType: "json",
-                        data: {
-                            name: $("#new_title").text(),
-                            description: $("#new_desc").text(),
-                            images: results,
-                        },
-                        success: function(data, status, ctx) {
-                            console.log(data);
-
-                        },
-                        error: function(ctx, status, error) {
-                            // Same filling, but with login info
-                            console.log("Error: " + status + ": " + error);
-                            console.log(ctx);
-                        }
-                    });
-                }
+                submit_post(e.target.result);
             } else {
                 window.alert("Error");
             }
         }
-        fileReader.readAsDataURL(src);
+        fileReader.readAsDataURL(document.getElementById("new_images").files[0]);
+    } else {
+        submit_post("");
     }
 });
+
+function submit_post(picture) {
+    $.post({
+        url: "/api/addevent",
+        headers: {
+            "token": token
+        },
+        dataType: "json",
+        data: JSON.stringify({
+            name: $("#new_title").val(),
+            description: $("#new_desc").val(),
+            picture: picture,
+        }),
+        contentType: "application/json",
+        success: function(data, status, ctx) {
+            console.log(data);
+        },
+        error: function(ctx, status, error) {
+            // Same filling, but with login info
+            console.log("Error: " + status + ": " + error);
+            console.log(ctx);
+        }
+    });
+}
