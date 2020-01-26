@@ -10,13 +10,28 @@ var center = L.marker([44.505, -93.09], { draggable: true }); //.addTo(mymap);
 
 var points = [];
 
-$(function() {
+$(function () {
     $('#datetimepicker1').datetimepicker()
 })
 
-$(function() {
+$(function () {
     $('[data-toggle="popover"]').popover()
 })
+
+mymap.on('click', onMapClick)
+
+var latlng = null
+
+let currentMarker = null
+function onMapClick(e) {
+    if (!currentMarker) {
+        currentMarker = L.marker(e.latlng).addTo(mymap)
+        currentMarker.bindPopup("Current create event position")
+    } else {
+        currentMarker.setLatLng(e.latlng)
+    }
+    latlng = e.latlng
+}
 
 
 function static_geo() {
@@ -34,7 +49,7 @@ function static_geo() {
         }),
         contentType: "application/json",
         dataType: "json",
-        success: function(data, status, ctx) {
+        success: function (data, status, ctx) {
             console.log(data);
             for (let i in data) {
                 // A bunch of filling
@@ -48,7 +63,7 @@ function static_geo() {
                 console.log([data[i].location.latitude, data[i].location.longitude]);
             }
         },
-        error: function(ctx, status, error) {
+        error: function (ctx, status, error) {
             // Same filling, but with login info
             console.log("Error: " + status + ": " + error);
             console.log(ctx);
@@ -81,7 +96,7 @@ if (navigator.geolocation) {
             }),
             contentType: "application/json",
             dataType: "json",
-            success: function(data, status, ctx) {
+            success: function (data, status, ctx) {
                 console.log(data);
                 let tmp = $("#newsfeed");
                 for (let i in data) {
@@ -92,7 +107,7 @@ if (navigator.geolocation) {
                         "</p></div></div>");
                 }
             },
-            error: function(ctx, status, error) {
+            error: function (ctx, status, error) {
                 // Same filling, but with login info
                 console.log("Error: " + status + ": " + error);
                 console.log(ctx);
@@ -122,7 +137,7 @@ $("#new_submit").click(() => {
     $("#new_event").addClass("invisible");
     if (document.getElementById("new_images").files[0]) {
         var fileReader = new FileReader();
-        fileReader.onloadend = function(e) {
+        fileReader.onloadend = function (e) {
             if (!e.target.error) {
                 submit_post(e.target.result);
             } else {
@@ -140,7 +155,7 @@ let output = document.getElementById("rangeText")
 
 output.innerHTML = `Range: ${slider.value}km&nbsp;&nbsp;`
 
-slider.oninput = function() {
+slider.oninput = function () {
     output.innerHTML = `Range: ${slider.value}km&nbsp;&nbsp;`
 }
 
@@ -154,13 +169,17 @@ function submit_post(picture) {
         data: JSON.stringify({
             name: $("#new_title").val(),
             description: $("#new_desc").val(),
+            location: {
+                latitude: latlng.lat,
+                longitude: latlng.lng
+            },
             picture: picture,
         }),
         contentType: "application/json",
-        success: function(data, status, ctx) {
+        success: function (data, status, ctx) {
             console.log(data);
         },
-        error: function(ctx, status, error) {
+        error: function (ctx, status, error) {
             // Same filling, but with login info
             console.log("Error: " + status + ": " + error);
             console.log(ctx);
