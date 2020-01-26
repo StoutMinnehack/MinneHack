@@ -157,6 +157,7 @@ slider.oninput = function () {
 }
 
 function submit_post(picture) {
+    let date = $('#new_date').text()
     $.post({
         url: "/api/addevent",
         headers: {
@@ -166,6 +167,7 @@ function submit_post(picture) {
         data: JSON.stringify({
             name: $("#new_title").val(),
             description: $("#new_desc").val(),
+            date: date,
             location: {
                 latitude: latlng.lat,
                 longitude: latlng.lng
